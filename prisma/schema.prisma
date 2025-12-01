@@ -1,0 +1,34 @@
+// Prisma schema for Forma & Attention BSOS Platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+}
+
+model Assessment {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Overall score
+  totalScore  Int      // 0-100
+  
+  // Channel scores
+  websiteScore    Int  // 0-33
+  socialScore     Int  // 0-33
+  adScore         Int  // 0-34
+  
+  // Raw responses (JSON stored as string)
+  responses   Json
+  
+  // Company info (optional)
+  companyName String?
+  email       String?
+  industry    String?
+  
+  @@index([createdAt])
+}
